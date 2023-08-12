@@ -14,24 +14,17 @@ abstract class FaydaApi extends Api
     const FAYDA_ENV_PROD = 'Production';
     const FAYDA_ENV_PRE_PROD = 'Pree-Production';
 
-
     /**
      * @var string
      */
     protected static $domainUri;
 
-    /**
-     * @return string
-     */
-    public static function getDomainUri()
+    public static function getDomainUri(): string
     {
-        return isset(static::$domainUri) ? static::$domainUri : static::$baseUri;
+        return static::$domainUri ?? static::$baseUri;
     }
 
-    /**
-     * @param string $domainUri
-     */
-    public static function setDomainUri($domainUri)
+    public static function setDomainUri(string $domainUri)
     {
         static::$domainUri = $domainUri;
     }
@@ -40,18 +33,16 @@ abstract class FaydaApi extends Api
     /**
      * Call an API
      *
-     * @param string $method
-     * @param string $uri
-     * @param array $params
-     * @param array $headers
-     * @param int $timeout
-     *
-     * @return ApiResponse
      * @throws Exceptions\HttpException
      * @throws Exceptions\InvalidApiUriException
      */
-    public function call(string $method, string $uri, array $params = [], array $headers = [], int $timeout = 30)
-    {
+    public function call(
+        string $method,
+        string $uri,
+        array $params = [],
+        array $headers = [],
+        int $timeout = 30
+    ): ApiResponse {
         $response = parent::call($method, $uri, $params, $headers, $timeout);
 
         return new ApiResponse($response);

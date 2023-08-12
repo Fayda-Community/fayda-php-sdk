@@ -1,9 +1,3 @@
-# docker build -t fayda-php-sdk .
-# docker run -it --rm --name fayda-php-sdk-running fayda-php-sdk
-
-# docker run -it --rm --name fayda-php-sdk-running -v "$PWD":/fayda -w /fayda/examples fayda-php-sdk php ./Cert.php
-# docker run -it --rm --name fayda-php-sdk-running -v "$PWD":/fayda -w /fayda/examples fayda-php-sdk sh
-
 FROM composer as builder
 
 WORKDIR /app/
@@ -31,4 +25,4 @@ WORKDIR /fayda/examples
 
 RUN apt-get clean
 
-CMD [ "php", "Cert.php" ]
+CMD ["php", "-a"]

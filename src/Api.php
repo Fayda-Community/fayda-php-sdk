@@ -170,7 +170,7 @@ abstract class Api
         array $params = [],
         array $headers = [],
         int $timeout = 30
-    ): Response {
+    ) {
         $request = new Request();
         $request->setMethod($method);
         $request->setBaseUri(static::getBaseUri());

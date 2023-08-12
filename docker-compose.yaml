@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  fayda:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./:/fayda
+    tty: true
+    stdin_open: true

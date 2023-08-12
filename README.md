@@ -2,7 +2,10 @@
 
 ❗This repository is work in progress. It is not ready yet and may change a lot.
 
-> Read the official specification document [Fayda Platform API Specification](https://nidp.atlassian.net/wiki/spaces/FAPIQ/pages/633733136/Fayda+Platform+API+Specification). In order to receive the latest change notifications, please `Watch` this repository.
+> Read the official specification
+>
+document [Fayda Platform API Specification](https://nidp.atlassian.net/wiki/spaces/FAPIQ/pages/633733136/Fayda+Platform+API+Specification).
+> In order to receive the latest change notifications, please `Watch` this repository.
 
 [![Latest Version](https://img.shields.io/github/release/Fayda-Community/fayda-php-sdk.svg)](https://github.com/Fayda-Community/fayda-php-sdk/releases)
 [![PHP Version](https://img.shields.io/packagist/php-v/fayda/fayda-php-sdk.svg?color=green)](https://secure.php.net)
@@ -22,10 +25,11 @@
 | [firebase/php-jwt](https://github.com/firebase/php-jwt) | `^6.8`                         |
 
 ## Install
+
 > Install package via [Composer](https://getcomposer.org/).
 
 ```shell
-composer require "fayda/fayda-php-sdk:~0.0.1"
+composer require "fayda/fayda-php-sdk"
 ```
 
 ## Usage
@@ -55,6 +59,7 @@ FaydaApi::getLogger()->debug("I'm a debug message");
 ```
 
 ### Examples
+
 > See the [examples](examples) folder for more.
 
 #### Example API - OTP Request Service
@@ -89,34 +94,59 @@ try {
 ```
 
 ### API list
+
 <details>
 <summary>Fayda\SDK\Api\PartnerAuthentication</summary>
 
-| API |  Description |
-| -------- | -------- |
+| API                                                 | Description                                                                                                                     |
+|-----------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
 | Fayda\SDK\Api\PartnerAuthentication::authenticate() | https://nidp.atlassian.net/wiki/spaces/FAPIQ/pages/633733136/Fayda+Platform+API+Specification#1.-Client-Authentication--Service |
+
 </details>
 
 <details>
 <summary>Fayda\SDK\Api\Otp</summary>
 
-| API | Description |
-| -------- | -------- |
+| API                             | Description                                                                                                           |
+|---------------------------------|-----------------------------------------------------------------------------------------------------------------------|
 | Fayda\SDK\Api\Otp::requestNew() | https://nidp.atlassian.net/wiki/spaces/FAPIQ/pages/633733136/Fayda+Platform+API+Specification#2.--OTP-Request-Service |
+
 </details>
 
 <details>
 <summary>Fayda\SDK\Api\Resident</summary>
 
-| API | Description |
-| -------- | -------- |
+| API                                         | Description                                                                                                                       |
+|---------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
 | Fayda\SDK\Api\Resident::authenticateYesNo() | https://nidp.atlassian.net/wiki/spaces/FAPIQ/pages/633733136/Fayda+Platform+API+Specification#3.-Resident-Authentication--Service |
-| Fayda\SDK\Api\Resident::authenticateKyc() | https://nidp.atlassian.net/wiki/spaces/FAPIQ/pages/633733136/Fayda+Platform+API+Specification#4.-Resident-e-KYC-Service |
+| Fayda\SDK\Api\Resident::authenticateKyc()   | https://nidp.atlassian.net/wiki/spaces/FAPIQ/pages/633733136/Fayda+Platform+API+Specification#4.-Resident-e-KYC-Service           |
 
 </details>
 
+## Using Docker
+
+Set up docker environment. 
+
+You can put the `.cert` and `.p12` files in the `examples/creds` folder.
+
+1. `cp .env.example .env`
+2. edit `.env` file with your credentials. 
+3. `docker-compose up -d`
+
+Run the examples inside docker. See the output on console to verify the results.
+
+#### Signing and encryption example
+`docker-compose exec fayda php ./Cert.php`
+
+#### Otp request example
+`docker-compose exec fayda php ./Otp.php`
+
+#### Resident authentication examples
+`docker-compose exec fayda php ./Resident.php`
+
 
 ## Run tests
+
 > Modify your API key in `phpunit.xml` first.
 
 ```shell
@@ -150,6 +180,5 @@ composer test
 ## License
 
 [MIT](LICENSE)
-
 
 ![Ethiopian National ID](nid_logo.png "Fayda")

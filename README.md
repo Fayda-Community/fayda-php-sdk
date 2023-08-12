@@ -57,9 +57,6 @@ FaydaApi::getLogger()->debug("I'm a debug message");
 ### Examples
 > See the [examples](examples) folder for more.
 
-##### **Note**
-To reinforce the security of the API, Fayda upgraded the API key to version 2.0, the validation logic has also been changed. It is recommended to create(https://www.Fayda.com/account/api) and update your API key to version 2.0. The API key of version 1.0 will be still valid until May 1, 2021
-
 #### Example of API `with` authentication
 
 ```php

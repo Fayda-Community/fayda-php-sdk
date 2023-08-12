@@ -23,5 +23,5 @@ try {
     print $authKey . "\n\n";
 
 } catch (HttpException|InvalidApiUriException $e) {
-    var_dump($e->getMessage());
+    print $e->getMessage();
 }

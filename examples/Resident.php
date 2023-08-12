@@ -31,5 +31,5 @@ try {
     print json_encode($result) . "\n\n";
 
 } catch (HttpException|BusinessException|InvalidApiUriException|EncryptionException $e) {
-    var_dump($e->getMessage());
+    print $e->getMessage();
 }

@@ -17,10 +17,12 @@ try {
     $auth = Auth::init();
     $api = new Otp($auth);
 
-    $result = $api->requestNew('1234554321', '4257964106293892');
+    $transactionId = '1234554321';
+    $individualId = '4257964106293892';
+    $result = $api->requestNew($transactionId, $individualId);
     print "============ OTP Request Result ============\n";
-    print $result . "\n\n";
+    print json_encode($result) . "\n\n";
 
 } catch (HttpException|BusinessException|InvalidApiUriException $e) {
-    var_dump($e->getMessage());
+    print $e->getMessage();
 }

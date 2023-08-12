@@ -80,15 +80,18 @@ try {
     $auth = Auth::init();
     $api = new Otp($auth);
 
-    $result = $api->requestNew('1234554321', '4257964106293892');
-
-    var_dump($result);
+    $transactionId = '1234554321';
+    $individualId = '4257964106293892';
+    $result = $api->requestNew($transactionId, $individualId);
+    print "============ OTP Request Result ============\n";
+    print json_encode($result) . "\n\n";
+    
 } catch (HttpException $e) {
-    var_dump($e->getMessage());
+    print $e->getMessage();
 } catch (BusinessException $e) {
-    var_dump($e->getMessage());
+    print $e->getMessage();
 } catch (InvalidApiUriException $e) {
-    var_dump($e->getMessage());
+    print $e->getMessage();
 }
 
 ```

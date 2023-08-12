@@ -1,6 +1,6 @@
 <?php
 
-include '../vendor/autoload.php';
+include './vendor/autoload.php';
 
 use Fayda\SDK\Utils\Crypto;
 
@@ -28,7 +28,8 @@ try {
     ]);
 
     $signature = $crypto->sign($payload);
-    var_dump($signature);
+    print "============ SIGNATURE ============\n";
+    print $signature . "\n\n";
 
 
     // Example data to encrypt
@@ -40,19 +41,23 @@ try {
 
     // generated Symmetric Key and encrypt it using Fayda public key, to be used for encryption of the request
     $requestSessionKey = $crypto->requestSessionKey();
-    var_dump($requestSessionKey);
+    print "============ Request Session Key ============\n";
+    print $requestSessionKey . "\n\n";
 
     $request = $crypto->encrypt($rawRequest, $requestSessionKey);
-    var_dump($request);
+    print "============ Encrypted Request ============\n";
+    print $request . "\n\n";
 
     $requestHmac = $crypto->generateHmac($rawRequest, $requestSessionKey);
-    var_dump($requestHmac);
+    print "============ Request HMAC ============\n";
+    print $requestHmac . "\n\n";
 
 
     // Thumbprint of public key certificate used for encryption of the requestSessionKey.
     // This might be for Fayda to identify the public key used for encryption.
     $thumbprint = $crypto->certThumbprint();
-    var_dump($thumbprint);
+    print "============ Thumbprint ============\n";
+    print $thumbprint . "\n\n";
 
 } catch (Exception $e) {
     print $e->getMessage();

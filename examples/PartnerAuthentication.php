@@ -1,6 +1,6 @@
 <?php
 
-include '../vendor/autoload.php';
+include './vendor/autoload.php';
 
 use Fayda\SDK\Api\PartnerAuthentication;
 use Fayda\SDK\Exceptions\HttpException;
@@ -19,7 +19,8 @@ try {
 
     $authKey = $partnerAuthenticator->authenticate($clientId, $secretKey, $appId);
 
-    var_dump($authKey);
+    print "============ Partner Auth Key ============\n";
+    print $authKey . "\n\n";
 
 } catch (HttpException|InvalidApiUriException $e) {
     var_dump($e->getMessage());

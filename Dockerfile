@@ -21,7 +21,7 @@ COPY . /fayda
 
 COPY --from=builder /app/vendor /fayda/vendor
 
-WORKDIR /fayda/examples
+WORKDIR /fayda
 
 RUN apt-get clean
 

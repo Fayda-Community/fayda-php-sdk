@@ -1,6 +1,6 @@
 <?php
 
-include '../vendor/autoload.php';
+include './vendor/autoload.php';
 
 use Fayda\SDK\Api\Resident;
 use Fayda\SDK\Auth;
@@ -22,10 +22,13 @@ try {
     $otp = '111111'; // get this from Otp::requestNew() call for each resident authentication
 
     $result = $api->authenticateYesNo($transactionId, $individualId, $otp);
-    var_dump($result);
+
+    print "============ Resident Authentication Yes/No Result ============\n";
+    print $result . "\n\n";
 
     $result = $api->authenticateKyc($transactionId, $individualId, $otp);
-    var_dump($result);
+    print "============ Resident Authentication KYC Result ============\n";
+    print json_encode($result) . "\n\n";
 
 } catch (HttpException|BusinessException|InvalidApiUriException|EncryptionException $e) {
     var_dump($e->getMessage());

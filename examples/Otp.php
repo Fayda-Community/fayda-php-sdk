@@ -1,6 +1,6 @@
 <?php
 
-include '../vendor/autoload.php';
+include './vendor/autoload.php';
 
 use Fayda\SDK\Api\Otp;
 use Fayda\SDK\Auth;
@@ -18,8 +18,9 @@ try {
     $api = new Otp($auth);
 
     $result = $api->requestNew('1234554321', '4257964106293892');
+    print "============ OTP Request Result ============\n";
+    print $result . "\n\n";
 
-    var_dump($result);
 } catch (HttpException|BusinessException|InvalidApiUriException $e) {
     var_dump($e->getMessage());
 }

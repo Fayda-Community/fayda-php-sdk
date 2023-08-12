@@ -125,25 +125,27 @@ try {
 
 ## Using Docker
 
-Set up docker environment. 
+Set up docker environment.
 
 You can put the `.cert` and `.p12` files in the `examples/creds` folder.
 
 1. `cp .env.example .env`
-2. edit `.env` file with your credentials. 
+2. edit `.env` file with your credentials.
 3. `docker-compose up -d`
 
 Run the examples inside docker. See the output on console to verify the results.
 
 #### Signing and encryption example
-`docker-compose exec fayda php ./Cert.php`
+
+`docker-compose exec fayda php ./examples/Cert.php`
 
 #### Otp request example
-`docker-compose exec fayda php ./Otp.php`
+
+`docker-compose exec fayda php ./examples/Otp.php`
 
 #### Resident authentication examples
-`docker-compose exec fayda php ./Resident.php`
 
+`docker-compose exec fayda php ./examples/Resident.php`
 
 ## Run tests
 

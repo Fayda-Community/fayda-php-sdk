@@ -1,7 +1,6 @@
 vendor
 .idea
 *.swap
-composer.lock
 
 # local keys
 examples/creds/*

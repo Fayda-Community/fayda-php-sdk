@@ -19,6 +19,7 @@ try {
 
     $transactionId = '1234554321';
     $individualId = '4257964106293892';
+
     $result = $api->requestNew($transactionId, $individualId);
     print "============ OTP Request Result ============\n";
     print json_encode($result) . "\n\n";

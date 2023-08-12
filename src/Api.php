@@ -6,7 +6,6 @@ use Exception;
 use Fayda\SDK\Http\GuzzleHttp;
 use Fayda\SDK\Http\IHttp;
 use Fayda\SDK\Http\Request;
-use Fayda\SDK\Http\Response;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;

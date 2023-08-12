@@ -135,7 +135,7 @@ You can put the `.cert` and `.p12` files in the `examples/creds` folder.
 
 Run the examples inside docker. See the output on console to verify the results.
 
-#### Signing and encryption example
+#### Signing and encryption examples
 
 `docker-compose exec fayda php ./examples/Cert.php`
 

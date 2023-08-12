@@ -1,0 +1,52 @@
+{
+  "name": "fayda/fayda-php-sdk",
+  "type": "library",
+  "license": "MIT",
+  "description": "PHP SDK for Fayda API",
+  "keywords": [
+    "fayda",
+    "api",
+    "sdk"
+  ],
+  "homepage": "https://github.com/Fayda-Community/fayda-php-sdk",
+  "support": {
+    "source": "https://github.com/Fayda-Community/fayda-php-sdk",
+    "issues": "https://github.com/Fayda-Community/fayda-php-sdk/issues"
+  },
+  "authors": [
+    {
+      "name": "Anteneh Gebeyaw",
+      "email": "agebeyaw@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.1 <8.2",
+    "ext-json": "*",
+    "ext-openssl": "*",
+    "guzzlehttp/guzzle": "^6.0|^7.0",
+    "monolog/monolog": "~1.0|~2.0",
+    "firebase/php-jwt": "^6.8"
+  },
+  "require-dev": {
+    "phpunit/phpunit": ">=5.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "Fayda\\SDK\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Fayda\\SDK\\Tests\\": "tests/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "optimize-autoloader": true,
+    "secure-http": false
+  },
+  "scripts": {
+    "test": "./vendor/bin/phpunit -c phpunit.xml --filter '/::testGet\\w+/' --coverage-text --verbose"
+  }
+}

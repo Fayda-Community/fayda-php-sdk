@@ -57,7 +57,7 @@ FaydaApi::getLogger()->debug("I'm a debug message");
 ### Examples
 > See the [examples](examples) folder for more.
 
-#### Example of API `with` authentication
+#### Example API - OTP Request Service
 
 ```php
 

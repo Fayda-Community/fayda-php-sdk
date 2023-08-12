@@ -20,11 +20,6 @@ abstract class Api
     const SDK_VERSION = '0.0.1';
 
     /**
-     * @var string SDK update date
-     */
-    const UPDATE_DATE = '2023.08.10';
-
-    /**
      * @var string
      */
     protected static $baseUri = 'https://dev.fayda.et';

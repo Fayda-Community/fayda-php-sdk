@@ -9,7 +9,7 @@ document [Fayda Platform API Specification](https://nidp.atlassian.net/wiki/spac
 
 [![Latest Version](https://img.shields.io/github/release/Fayda-Community/fayda-php-sdk.svg)](https://github.com/Fayda-Community/fayda-php-sdk/releases)
 [![PHP Version](https://img.shields.io/packagist/php-v/fayda/fayda-php-sdk.svg?color=green)](https://secure.php.net)
-[![Build Status](https://travis-ci.org/fayda/fayda-php-sdk.svg?branch=master)](https://travis-ci.org/fayda/fayda-php-sdk)
+[![Build Status](https://travis-ci.org/Fayda-Community/fayda-php-sdk.svg?branch=main)](https://travis-ci.org/Fayda-Community/fayda-php-sdk)
 [![Total Downloads](https://poser.pugx.org/fayda/fayda-php-sdk/downloads)](https://packagist.org/packages/fayda/fayda-php-sdk)
 [![License](https://poser.pugx.org/fayda/fayda-php-sdk/license)](LICENSE)
 <!-- [![Total Lines](https://tokei.rs/b1/github/Fayda-Community/fayda-php-sdk)](https://github.com/Fayda-Community/fayda-php-sdk) -->
@@ -84,6 +84,7 @@ try {
     $individualId = '4257964106293892';
     
     $result = $api->requestNew($transactionId, $individualId);
+    
     print "============ OTP Request Result ============\n";
     print json_encode($result) . "\n\n";
     

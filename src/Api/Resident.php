@@ -25,6 +25,16 @@ class Resident extends IdAuthentication
 
     private static $idKyc = 'fayda.identity.kyc';
 
+    public static function setIdYesNo(string $idYesNo): void
+    {
+        static::$idYesNo = $idYesNo;
+    }
+
+    public static function setIdKyc(string $idKyc): void
+    {
+        static::$idKyc = $idKyc;
+    }
+
     /**
      * Resident Authentication Yes/No given OTP
      *
@@ -37,7 +47,7 @@ class Resident extends IdAuthentication
         string $transactionID,
         string $individualId,
         string $otp,
-        string $individualType = self::INDIVIDUAL_TYPE_VID,
+        string $individualIdType = self::INDIVIDUAL_TYPE_VID,
         bool $requestOtp = true,
         bool $requestDemo = false,
         bool $requestBio = false,
@@ -48,7 +58,7 @@ class Resident extends IdAuthentication
             $transactionID,
             $individualId,
             $otp,
-            $individualType,
+            $individualIdType,
             $requestOtp,
             $requestDemo,
             $requestBio,
@@ -58,6 +68,7 @@ class Resident extends IdAuthentication
 
         $params = array_merge($params, [
             'id' => static::$idYesNo,
+            'domainUri' => static::getDomainUri(),
         ]);
 
         $response = $this->callWithDefaults(Request::METHOD_POST, '/idauthentication/v1/otp', $params);
@@ -78,7 +89,7 @@ class Resident extends IdAuthentication
         string $transactionID,
         string $individualId,
         string $otp,
-        string $individualType = self::INDIVIDUAL_TYPE_VID,
+        string $individualIdType = self::INDIVIDUAL_TYPE_VID,
         bool $requestOtp = true,
         bool $requestDemo = false,
         bool $requestBio = false,
@@ -89,7 +100,7 @@ class Resident extends IdAuthentication
             $transactionID,
             $individualId,
             $otp,
-            $individualType,
+            $individualIdType,
             $requestOtp,
             $requestDemo,
             $requestBio,
@@ -115,7 +126,7 @@ class Resident extends IdAuthentication
         string $transactionID,
         string $individualId,
         string $otp,
-        string $individualType,
+        string $individualIdType,
         bool $requestOtp,
         bool $requestDemo,
         bool $requestBio,
@@ -144,7 +155,7 @@ class Resident extends IdAuthentication
             'requestSessionKey' => $requestSessionKey,
             'requestHMAC' => $this->auth->requestHMAC($request, $requestSessionKey),
             'request' => $this->auth->encodedRequest($request, $requestSessionKey),
-        ], compact('transactionID', 'individualId', 'individualType', 'consentObtained'));
+        ], compact('transactionID', 'individualId', 'individualIdType', 'consentObtained'));
     }
 
 }

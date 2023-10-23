@@ -39,19 +39,22 @@ class Crypto
     /**
      * @var string
      */
-    private $p12Key;
+    private $faydaP12Key;
 
     /**
      * @var string
      */
-    private $p12Password;
+    private $faydaP12Password;
 
 
-    public function __construct(string $cert, string $p12Key, string $p12Password)
-    {
+    public function __construct(
+        string $cert,
+        string $faydaP12Key,
+        string $faydaP12Password
+    ) {
         $this->cert = $cert;
-        $this->p12Key = $p12Key;
-        $this->p12Password = $p12Password;
+        $this->faydaP12Key = $faydaP12Key;
+        $this->faydaP12Password = $faydaP12Password;
     }
 
 
@@ -61,12 +64,15 @@ class Crypto
     public function sign(string $body): string
     {
         try {
-            $p12CertInfo = $this->loadP12();
+            $p12CertInfo = $this->loadFaydaP12();
+
+            $x5c = str_replace("-----BEGIN CERTIFICATE-----", "", $p12CertInfo['cert']);
+            $x5c = str_replace("-----END CERTIFICATE-----", "", $x5c);
 
             $headers = [
                 'alg' => self::SIGN_ALG,
-                'typ' => 'JWT',
-                'x5c' => [$p12CertInfo['cert']]
+                'typ' => 'JWS',
+                'x5c' => [trim($x5c)]
             ];
 
             return JWT::encode(json_decode($body, true), $p12CertInfo['pkey'], self::SIGN_ALG, null, $headers);
@@ -96,9 +102,14 @@ class Crypto
      *
      * @throws CertificateException
      */
-    public function loadP12(): array
+    public function loadFaydaP12(): array
     {
-        if (openssl_pkcs12_read($this->p12Key, $p12CertInfo, $this->p12Password)) {
+        return $this->loadP12($this->faydaP12Key, $this->faydaP12Password);
+    }
+
+    private function loadP12($key, $passphrase): array
+    {
+        if (openssl_pkcs12_read($key, $p12CertInfo, $passphrase)) {
 
             /**
              * $p12CertInfo['pkey']  //private key

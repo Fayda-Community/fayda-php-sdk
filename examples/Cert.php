@@ -3,9 +3,12 @@
 include './vendor/autoload.php';
 
 use Fayda\SDK\Utils\Crypto;
+use Firebase\JWT\Key;
 
 
 $cert = file_get_contents(getenv('FAYDA_CERT_PATH'));
+
+//fayda
 $key = file_get_contents(getenv('FAYDA_KEYPAIR_PATH'));
 $passphrase = getenv('FAYDA_P12_PASSWORD');
 
@@ -14,13 +17,13 @@ $crypto = new Crypto($cert, $key, $passphrase);
 try {
     // Example request payload
     $payload = json_encode([
-        "id" => "fayda.identity.otp",
-        "requestTime" => "2022-08-29T19:25:42.289+05:30",
-        "env" => "Developer",
+        "id" => "mosip.identity.otp",
         "version" => "1.0",
-        "domainUri" => "https://dev.fayda.et",
-        "transactionID" => "1234512345",
-        "individualId" => "4157164106193802",
+        "requestTime" => "2023-10-17T22:33:20.000+00:00",
+        "env" => "Developer",
+        "domainUri" => "https://minibox.fayda.et",
+        "transactionID" => "1697582000",
+        "individualId" => "4257964106293892",
         "individualIdType" => "VID",
         "otpChannel" => [
             "PHONE"
@@ -30,6 +33,9 @@ try {
     $signature = $crypto->sign($payload);
     print "============ SIGNATURE ============\n";
     print $signature . "\n\n";
+
+    print "============ DECODED ============\n";
+    var_dump(\Firebase\JWT\JWT::decode($signature, new Key($crypto->loadFaydaP12()['cert'], 'RS256')));
 
 
     // Example data to encrypt

@@ -21,6 +21,11 @@ class Otp extends IdAuthentication
 
     private static $id = 'fayda.identity.otp';
 
+    public static function setId(string $id): void
+    {
+        static::$id = $id;
+    }
+
     /**
      * OTP Request
      *
@@ -31,13 +36,14 @@ class Otp extends IdAuthentication
     public function requestNew(
         string $transactionID,
         string $individualId,
-        string $individualType = self::INDIVIDUAL_TYPE_VID,
+        string $individualIdType = self::INDIVIDUAL_TYPE_VID,
         string $otpChannel = self::OTP_CHANNEL_PHONE
     ): array {
         $params = array_merge([
             'id' => static::$id,
+            'domainUri' => static::getDomainUri(),
             'otpChannel' => [$otpChannel],
-        ], compact('transactionID', 'individualId', 'individualType'));
+        ], compact('transactionID', 'individualId', 'individualIdType'));
 
         $response = $this->callWithDefaults(Request::METHOD_POST, '/idauthentication/v1/otp', $params);
 

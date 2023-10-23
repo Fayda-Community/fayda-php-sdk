@@ -36,7 +36,7 @@ abstract class Api
     /**
      * @var string
      */
-    protected static $logPath = '/tmp';
+    protected static $logPath;
 
     /**
      * @var LoggerInterface $logger
@@ -129,7 +129,7 @@ abstract class Api
 
     public static function getLogPath(): string
     {
-        return self::$logPath;
+        return self::$logPath ?? '/tmp';
     }
 
     public static function setLogPath(string $logPath)

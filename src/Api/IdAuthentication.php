@@ -25,7 +25,7 @@ abstract class IdAuthentication extends FaydaApi
     public function callWithDefaults(string $method, string $uri, array $params = []): ApiResponse
     {
         $defaultParams = [
-            'env' => getenv('FAYDA_VERSION') ?: self::FAYDA_ENV_DEV,
+            'env' => getenv('FAYDA_ENV') ?: self::FAYDA_ENV_DEV,
             'version' => getenv('FAYDA_VERSION') ?: '1.0',
             'requestTime' => date(self::DATE_FORMAT),
         ];
@@ -40,7 +40,7 @@ abstract class IdAuthentication extends FaydaApi
     {
         $fispKey = getenv('FAYDA_FISP_KEY');
         $partnerId = getenv('FAYDA_PARTNER_ID');
-        $apiKey = getenv('FAYDA_API_KEY');
+        $apiKey = getenv('FAYDA_PARTNER_API_KEY');
 
         return sprintf('%s/%s/%s/%s', rtrim($uri, '/'), $fispKey, $partnerId, $apiKey);
     }

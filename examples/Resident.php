@@ -8,17 +8,23 @@ use Fayda\SDK\Exceptions\BusinessException;
 use Fayda\SDK\Exceptions\EncryptionException;
 use Fayda\SDK\Exceptions\HttpException;
 use Fayda\SDK\Exceptions\InvalidApiUriException;
+use Fayda\SDK\FaydaApi;
 
 // Set the base uri for production environment.
 //FaydaApi::setBaseUri('https://prod.fayda.et');
+
+FaydaApi::setBaseUri(getenv('FAYDA_BASE_URL'));
+FaydaApi::setSkipVerifyTls(boolval(getenv('FAYDA_SKIP_VERIFY_TLS')));
+FaydaApi::setDebugMode(boolval(getenv('FAYDA_DEBUG_MODE')));
+FaydaApi::setLogPath(getenv('LOG_DIR'));
 
 try {
 
     $auth = Auth::init();
     $api = new Resident($auth);
 
-    $transactionId = '5814390537';
-    $individualId = '4257964106293892';
+    $transactionId = get;
+    $individualId = getenv('FAYDA_TEST_VID');
     $otp = '111111'; // get this from Otp::requestNew() call for each resident authentication
 
     $result = $api->authenticateYesNo($transactionId, $individualId, $otp);

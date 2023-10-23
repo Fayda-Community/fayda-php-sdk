@@ -31,12 +31,13 @@ class Auth implements IAuth
      * @throws HttpException
      * @throws InvalidApiUriException
      */
-    public static function init()
+    public static function init(): Auth
     {
-        // crypto credentials
-        $cert = file_get_contents(getenv('FAYDA_CERT_PATH'));
-        $key = file_get_contents(getenv('FAYDA_KEYPAIR_PATH'));
-        $passphrase = getenv('FAYDA_P12_PASSWORD');
+        // signing/crypto credentials
+        $faydaKey = file_get_contents(getenv('FAYDA_KEYPAIR_PATH'));
+        $faydaPassphrase = getenv('FAYDA_P12_PASSWORD');
+
+        $faydaCert = file_get_contents(getenv('FAYDA_CERT_PATH'));
 
         // partner authentication credentials
         $appId = getenv('FAYDA_APP_ID');
@@ -49,9 +50,9 @@ class Auth implements IAuth
 
         // TODO(Anteneh): Do check the lifetime of the auth key and introduce some caching for subsequent requests
 
-        $crypto = new Crypto($cert, $key, $passphrase);
+        $crypto = new Crypto($faydaCert, $faydaKey, $faydaPassphrase);
 
-        return new Auth($authKey, $crypto);
+        return new self($authKey, $crypto);
     }
 
     /**

@@ -26,7 +26,7 @@
         <env name="FAYDA_BASE_URL" value="https://openapi-dev.fayda.et" force="false"/>
         <env name="FAYDA_SECRET_KEY" value="secret-key" force="false"/>
         <env name="FAYDA_CLIENT_ID" value="client-id" force="false"/>
-        <env name="FAYDA_API_KEY" value="api-key" force="false"/>
+        <env name="FAYDA_PARTNER_API_KEY" value="api-key" force="false"/>
         <env name="FAYDA_FISP_KEY" value="fisp" force="false"/>
         <env name="FAYDA_CERT" value="crt" force="false"/>
         <env name="FAYDA_KEYPAIR" value="p12" force="false"/>

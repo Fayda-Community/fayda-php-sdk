@@ -18,11 +18,11 @@ document [Fayda Platform API Specification](https://nidp.atlassian.net/wiki/spac
 
 ## Requirements
 
-| Dependency                                              | Requirement                     |
-|---------------------------------------------------------|---------------------------------|
-| [PHP](https://secure.php.net/manual/en/install.php)     | `>=7.1 <8.2` `Recommend PHP8+`  |
-| [guzzlehttp/guzzle](https://github.com/guzzle/guzzle)   | <code>^6.0 &#124; ^7.0</code>   | 
-| [firebase/php-jwt](https://github.com/firebase/php-jwt) | `^6.8`                          |
+| Dependency                                              | Requirement                    |
+|---------------------------------------------------------|--------------------------------|
+| [PHP](https://secure.php.net/manual/en/install.php)     | `>=7.1 <8.2` `Recommend PHP8+` |
+| [guzzlehttp/guzzle](https://github.com/guzzle/guzzle)   | <code>^6.0 &#124; ^7.0</code>  | 
+| [firebase/php-jwt](https://github.com/firebase/php-jwt) | `^5.5`                         |
 
 ## Install
 

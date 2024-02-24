@@ -16,15 +16,9 @@ use Fayda\SDK\Http\Request;
  */
 class Otp extends IdAuthentication
 {
-    const OTP_CHANNEL_PHONE = 'PHONE';
-    const OTP_CHANNEL_EMAIL = 'EMAIL';
+    const OTP_CHANNEL_PHONE = 'phone';
+    const OTP_CHANNEL_EMAIL = 'email';
 
-    private static $id = 'fayda.identity.otp';
-
-    public static function setId(string $id): void
-    {
-        static::$id = $id;
-    }
 
     /**
      * OTP Request
@@ -36,18 +30,20 @@ class Otp extends IdAuthentication
     public function requestNew(
         string $transactionID,
         string $individualId,
-        string $individualIdType = self::INDIVIDUAL_TYPE_VID,
         string $otpChannel = self::OTP_CHANNEL_PHONE
     ): array {
         $params = array_merge([
-            'id' => static::$id,
-            'domainUri' => static::getDomainUri(),
+            'domainUri' => 'fayda.et',
             'otpChannel' => [$otpChannel],
-        ], compact('transactionID', 'individualId', 'individualIdType'));
+            'individualIdType' => strlen($individualId) === 16 ? self::INDIVIDUAL_TYPE_FCN : self::INDIVIDUAL_TYPE_FIN,
+        ], compact('transactionID', 'individualId'));
 
-        $response = $this->callWithDefaults(Request::METHOD_POST, '/idauthentication/v1/otp', $params);
+        $response = $this->callWithDefaults(Request::METHOD_POST, '/fayda/requestData', $params);
 
-        return $response->getApiData();
+        return [
+            'transactionID' => $response->getTransactionID(),
+            'data' => $response->getApiData(),
+        ];
     }
 
 }

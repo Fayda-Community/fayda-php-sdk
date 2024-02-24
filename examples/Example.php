@@ -3,7 +3,7 @@
 include './vendor/autoload.php';
 
 use Fayda\SDK\Api\Otp;
-use Fayda\SDK\Auth;
+use Fayda\SDK\Api\DataKyc;
 use Fayda\SDK\Exceptions\BusinessException;
 use Fayda\SDK\Exceptions\HttpException;
 use Fayda\SDK\Exceptions\InvalidApiUriException;
@@ -17,18 +17,28 @@ FaydaApi::setLogPath(getenv('LOG_DIR'));
 
 try {
 
-    $auth = Auth::init();
-    $api = new Otp($auth);
-    $api::setId('mosip.identity.otp'); //override the default id
-
-    $transactionId = '1697582000'; //time();
-    $individualId = getenv('FAYDA_TEST_VID');
-
-//    $individualId = getenv('FAYDA_TEST_UIN'); // uncomment this line to test with UIN
-
+    print "============ OTP Request ============\n";
+    $api = new Otp();
+    $transactionId = time();
+    $individualId = getenv('FAYDA_TEST_FIN');
     $result = $api->requestNew($transactionId, $individualId);
-    print "============ OTP Request Result ============\n";
     print json_encode($result) . "\n\n";
+
+    $otp = readline("Enter OTP: ");
+
+    $dataKyc = new DataKyc();
+    print "============ Partner eKyc ============\n";
+    $authentication = $dataKyc->authenticate(
+        $result['transactionID'], // transactionID from the previous request
+        $individualId,
+        $otp,
+        [
+            'otp' => false,
+            'demo' => true,
+            'bio' => false,
+        ]
+    );
+    print json_encode($authentication) . "\n\n";
 
 } catch (HttpException|BusinessException|InvalidApiUriException $e) {
     print $e->getMessage();

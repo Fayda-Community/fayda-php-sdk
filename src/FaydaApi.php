@@ -9,10 +9,7 @@ abstract class FaydaApi extends Api
 
     const DATE_FORMAT = 'Y-m-d\TH:i:s.vP';
 
-    const FAYDA_ENV_STAGING = 'Staging';
-    const FAYDA_ENV_DEV = 'Developer';
-    const FAYDA_ENV_PROD = 'Production';
-    const FAYDA_ENV_PRE_PROD = 'Pree-Production';
+    const FAYDA_ENV_PROD = 'prod';
 
     /**
      * @var string

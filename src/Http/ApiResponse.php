@@ -51,6 +51,12 @@ class ApiResponse
         return $body['errors'][0]['errorMessage'] ?? '';
     }
 
+    public function getTransactionId()
+    {
+        $body = $this->getBody();
+        return $body['transactionID'] ?? '';
+    }
+
     public function getHttpResponse(): Response
     {
         return $this->httpResponse;

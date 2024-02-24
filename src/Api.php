@@ -21,7 +21,7 @@ abstract class Api
     /**
      * @var string
      */
-    protected static $baseUri = 'https://dev.fayda.et';
+    protected static $baseUri = 'https://auth-api.fayda.et';
 
     /**
      * @var bool
@@ -49,26 +49,15 @@ abstract class Api
     protected static $logLevel = Logger::DEBUG;
 
     /**
-     * @var array
-     */
-    protected static $customHeaders;
-
-    /**
-     * @var IAuth $auth
-     */
-    protected $auth;
-
-    /**
      * @var IHttp $http
      */
     protected $http;
 
-    public function __construct(IAuth $auth = null, IHttp $http = null)
+    public function __construct(IHttp $http = null)
     {
         if ($http === null) {
             $http = new GuzzleHttp(['skipVerifyTls' => &self::$skipVerifyTls]);
         }
-        $this->auth = $auth;
         $this->http = $http;
     }
 
@@ -147,16 +136,6 @@ abstract class Api
         self::$logLevel = $logLevel;
     }
 
-    public static function setCustomHeaders(array $headers)
-    {
-        self::$customHeaders = $headers;
-    }
-
-    public static function getCustomHeaders(): array
-    {
-        return self::$customHeaders;
-    }
-
     /**
      *
      * @throws Exceptions\HttpException
@@ -174,21 +153,13 @@ abstract class Api
         $request->setMethod($method);
         $request->setBaseUri(static::getBaseUri());
         $request->setUri($uri);
-        $request->setParams($params);
+        $request->setParams(array_merge($params, [
+            'id' => getenv('FAYDA_CLIENT_ID'),
+            'clientSecret' => getenv('FAYDA_SECRET_KEY')
+        ]));
 
-        if ($this->auth) {
-            $authHeaders = $this->auth->getHeaders(
-                $request->getMethod(),
-                $request->getRequestUri(),
-                $request->getBodyParams()
-            );
-            $headers = array_merge($headers, $authHeaders);
-        }
+
         $headers['User-Agent'] = 'Fayda-PHP-SDK/' . static::SDK_VERSION . ' (PHP ' . PHP_VERSION . ')';
-
-        if (self::$customHeaders) {
-            $headers = array_merge($headers, self::$customHeaders);
-        }
 
         $request->setHeaders($headers);
 
@@ -198,6 +169,7 @@ abstract class Api
             static::getLogger()->debug(sprintf('Sent a HTTP request#%s: %s', $requestId, $request));
         }
         $requestStart = microtime(true);
+
         $response = $this->http->request($request, $timeout);
         if (self::isDebugMode()) {
             $cost = (microtime(true) - $requestStart) * 1000;

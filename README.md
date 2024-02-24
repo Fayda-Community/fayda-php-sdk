@@ -36,10 +36,10 @@ composer require "fayda/fayda-php-sdk"
 
 ### Choose environment
 
-| Environment   | BaseUri                         |
-|---------------|---------------------------------|
-| *Production*  | `https://prod.fayda.et`         |
-| *Development* | `https://dev.fayda.et`(DEFAULT) |
+| Environment   | BaseUri                              |
+|---------------|--------------------------------------|
+| *Production*  | `https://prod.fayda.et`              |
+| *Development* | `https://auth-api.fayda.et`(DEFAULT) |
 
 ```php
 // Switch to the prod environment
@@ -72,21 +72,36 @@ use Fayda\SDK\Exceptions\BusinessException;
 use Fayda\SDK\Exceptions\HttpException;
 use Fayda\SDK\Exceptions\InvalidApiUriException;
 
-// Set the base uri for your environment. Default is https://dev.fayda.et
+// Set the base uri for your environment. Default is https://auth-api.fayda.et
 //FaydaApi::setBaseUri('https://prod.fayda.et');
 
 try {
 
-    $auth = Auth::init();
-    $api = new Otp($auth);
+    $api = new Otp();
 
-    $transactionId = '1234554321';
-    $individualId = '4257964106293892';
+    $transactionId = time(); // unique transaction id
+    $individualId = ''; // your Fayda FIN/FCN
     
     $result = $api->requestNew($transactionId, $individualId);
     
     print "============ OTP Request Result ============\n";
     print json_encode($result) . "\n\n";
+    
+    $otp = readline("Enter OTP: ");
+    
+    print "============  eKyc ============\n";
+    $dataKyc = new DataKyc();
+    $authentication = $dataKyc->authenticate(
+        $result['transactionID'], // transactionID from the previous request
+        $individualId,
+        $otp,
+        [
+            'otp' => false,
+            'demo' => true,
+            'bio' => false,
+        ]
+    );
+    print json_encode($authentication) . "\n\n";
     
 } catch (HttpException $e) {
     print $e->getMessage();
@@ -98,41 +113,9 @@ try {
 
 ```
 
-### API list
-
-<details>
-<summary>Fayda\SDK\Api\PartnerAuthentication</summary>
-
-| API                                                 | Description                                                                                                                     |
-|-----------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
-| Fayda\SDK\Api\PartnerAuthentication::authenticate() | https://nidp.atlassian.net/wiki/spaces/FAPIQ/pages/633733136/Fayda+Platform+API+Specification#1.-Client-Authentication--Service |
-
-</details>
-
-<details>
-<summary>Fayda\SDK\Api\Otp</summary>
-
-| API                             | Description                                                                                                           |
-|---------------------------------|-----------------------------------------------------------------------------------------------------------------------|
-| Fayda\SDK\Api\Otp::requestNew() | https://nidp.atlassian.net/wiki/spaces/FAPIQ/pages/633733136/Fayda+Platform+API+Specification#2.--OTP-Request-Service |
-
-</details>
-
-<details>
-<summary>Fayda\SDK\Api\Resident</summary>
-
-| API                                         | Description                                                                                                                       |
-|---------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
-| Fayda\SDK\Api\Resident::authenticateYesNo() | https://nidp.atlassian.net/wiki/spaces/FAPIQ/pages/633733136/Fayda+Platform+API+Specification#3.-Resident-Authentication--Service |
-| Fayda\SDK\Api\Resident::authenticateKyc()   | https://nidp.atlassian.net/wiki/spaces/FAPIQ/pages/633733136/Fayda+Platform+API+Specification#4.-Resident-e-KYC-Service           |
-
-</details>
-
 ## Using Docker
 
 Set up docker environment.
-
-You can put the `.cert` and `.p12` files in the `examples/creds` folder.
 
 1. `cp .env.example .env`
 2. edit `.env` file with your credentials.
@@ -140,17 +123,9 @@ You can put the `.cert` and `.p12` files in the `examples/creds` folder.
 
 Run the examples inside docker. See the output on console to verify the results.
 
-#### Signing and encryption examples
+#### Request OTP and do kyc
 
-`docker-compose exec fayda php ./examples/Cert.php`
-
-#### Otp request example
-
-`docker-compose exec fayda php ./examples/Otp.php`
-
-#### Resident authentication examples
-
-`docker-compose exec fayda php ./examples/Resident.php`
+`docker-compose exec fayda php ./examples/Example.php`
 
 ## Run tests
 
@@ -161,46 +136,14 @@ Run the examples inside docker. See the output on console to verify the results.
         
 export FAYDA_BASE_URL=https://dev.fayda.et
 
-export FAYDA_AUTH_KEY=auth-key
-export FAYDA_APP_ID=app-id
-export FAYDA_CLIENT_ID=client-id
-export FAYDA_SECRET_KEY=secret-key
-
-export FAYDA_FISP_KEY=fisp
-export FAYDA_PARTNER_ID=partner-id
-export FAYDA_PARTNER_API_KEY=api-key
-
-export FAYDA_CERT=cert
-
-export FAYDA_KEYPAIR=p12
-export FAYDA_P12_PASSWORD=passphrase
-
 export FAYDA_VERSION=1.0
-export FAYDA_ENV=Developer
+export FAYDA_ENV=prod
 
 export FAYDA_SKIP_VERIFY_TLS=0
 export FAYDA_DEBUG_MODE=1
 
 composer test
 ```
-
-## Generate your PKCS12 (.p12) file
-
-Generate 2048-bit RSA private key:
-
-`openssl genrsa -out key.pem 2048`
-
-Generate a Certificate Signing Request:
-
-`openssl req -new -sha256 -key key.pem -out client.csr`
-
-Generate a self-signed x509 certificate suitable for use on web servers.
-
-`openssl req -x509 -sha256 -days 365 -key key.pem -in client.csr -out certificate.pem`
-
-Create SSL identity file in PKCS12 as mentioned here
-
-`openssl pkcs12 -export -out client-identity.p12 -inkey key.pem -in certificate.pem`
 
 ## License
 
